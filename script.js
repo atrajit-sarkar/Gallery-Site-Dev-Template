@@ -1,21 +1,61 @@
-const username='' // Enter your github server username
-const reponame='' // Enter your github server repo name
+const username = 'gongobongofounder' // Enter your github server username
+const reponame = 'TestFolderPreview' // Enter your github server repo name
 const repoURL = `https://api.github.com/repos/${username}/${reponame}/contents/`; // Replace with your GitHub repo details
 
-async function fetchMedia() {
+
+async function fetchdirs() {
     try {
         const response = await fetch(repoURL);
+        const data = await response.json();
+        data.forEach(datam => {
+            if (datam.type==='dir') {
+                // console.log(datam.name);
+                fetchMedia(datam.name,datam.name)
+
+            }
+        })
+
+
+    } catch (error) {
+        console.error('Error fetching media:', error);
+    }
+}
+fetchdirs()
+
+
+async function fetchMedia(path,dir_name) {
+    try {
+        const response = await fetch(repoURL+path);
         const data = await response.json();
 
         const videoGalleryContent = document.querySelector(".video-gallery .contents");
         const imageGalleryContent = document.querySelector(".image-gallery .contents");
+        const videoGalleryContentFiles=document.createElement("div")
+        const imageGalleryContentFiles=document.createElement("div")
+        videoGalleryContentFiles.setAttribute("class","files")
+        imageGalleryContentFiles.setAttribute("class","files")
+
+        const vid_dirName=document.createElement("h2")
+        const img_dirName=document.createElement("h2")
+
+        vid_dirName.innerHTML=`${dir_name}`
+        img_dirName.innerHTML=`${dir_name}`
+
+        videoGalleryContent.appendChild(vid_dirName)
+        imageGalleryContent.appendChild(img_dirName)
+        
+        videoGalleryContent.appendChild(videoGalleryContentFiles)
+        imageGalleryContent.appendChild(imageGalleryContentFiles)
+
+
+
 
         data.forEach(file => {
             if (file.name.endsWith('.jpg') || file.name.endsWith('.png') || file.name.endsWith('.heic')) {
                 // Create and append an image element
                 const imagecard = document.createElement("div");
                 imagecard.setAttribute("class", "image-card");
-                imageGalleryContent.appendChild(imagecard);
+                imageGalleryContentFiles.appendChild(imagecard);
 
                 const img = document.createElement('img');
                 const a = document.createElement('a');
@@ -28,7 +68,7 @@ async function fetchMedia() {
                 // Create and append a video element
                 const videocard = document.createElement("div");
                 videocard.setAttribute("class", "video-card");
-                videoGalleryContent.appendChild(videocard);
+                videoGalleryContentFiles.appendChild(videocard);
 
                 const video = document.createElement('video');
                 video.setAttribute("class", "video-player");
@@ -59,4 +99,4 @@ async function fetchMedia() {
     }
 }
 
-fetchMedia();
+// fetchMedia();

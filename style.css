@@ -33,6 +33,13 @@ h1, h2 {
 
 .contents{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.contents .files{
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
@@ -45,6 +52,7 @@ h1, h2 {
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
+    padding-top: 32px;
 }
 
 .video-card, .image-card {
@@ -103,4 +111,10 @@ img:hover {
         display: flex;
         flex-direction: column;
     }
+}
+
+
+hr{
+    color: antiquewhite;
+    width: -webkit-fill-available;
 }
